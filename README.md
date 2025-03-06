@@ -75,6 +75,18 @@ L'application utilise `argparse` pour gérer les arguments de la ligne de comman
 python src/main.py --config config/config.ini --logging config/logging.ini
 ```
 
+## Utilisation de Docker
+
+Pour construire l'image Docker, utilisez la commande suivante :
+```bash
+docker build -t nom_image ./docker
+```
+
+Pour lancer les services avec docker-compose, utilisez la commande suivante :
+```bash
+docker-compose -f ./docker/docker-compose.yml up
+```
+
 ## Structure des dossiers
 
 ```
@@ -83,6 +95,10 @@ python-starter-template/
 │   ├── config.example.ini  # Exemple de fichier de configuration
 │   ├── config.ini          # Fichier de configuration principal
 │   └── logging.ini         # Configuration des logs
+├── docker/                 # Fichiers Docker
+│   ├── .dockerignore       # Fichiers et dossiers à ignorer par Docker
+│   ├── Dockerfile          # Instructions pour construire l'image Docker
+│   └── docker-compose.yml  # Configuration de Docker Compose
 ├── logs/                   # Dossier pour les fichiers de logs
 ├── src/                    # Code source de l'application
 │   ├── app/                # Application principale
@@ -91,10 +107,7 @@ python-starter-template/
 │   │   ├── args.py         # Gestion des arguments de la ligne de commande
 │   │   ├── email_notifier.py # Service de notification par email
 │   │   └── logs.py         # Gestion des logs
-├── .dockerignore           # Fichiers et dossiers à ignorer par Docker
 ├── .gitignore              # Fichiers et dossiers à ignorer par Git
-├── Dockerfile              # Instructions pour construire l'image Docker
-├── docker-compose.yml      # Configuration de Docker Compose
 ├── requirements.txt        # Liste des dépendances Python
 └── README.md               # Documentation du projet
 ```
