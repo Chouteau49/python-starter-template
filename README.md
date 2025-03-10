@@ -98,14 +98,18 @@ docker-compose -f ./docker/docker-compose.yml up
 ```
 python-starter-template/
 ├── config/                 # Fichiers de configuration
-│   ├── config.example.ini  # Exemple de fichier de configuration
 │   ├── config.ini          # Fichier de configuration principal
 │   └── logging.ini         # Configuration des logs
+├── config_samples/        # Exemples de fichiers de configuration
+│   ├── config.ini.sample   # Exemple de fichier de configuration
+│   └── logging.ini.sample  # Exemple de fichier de configuration des logs
 ├── docker/                 # Fichiers Docker
 │   ├── .dockerignore       # Fichiers et dossiers à ignorer par Docker
 │   ├── Dockerfile          # Instructions pour construire l'image Docker
 │   └── docker-compose.yml  # Configuration de Docker Compose
 ├── logs/                   # Dossier pour les fichiers de logs
+├── scripts/                # Scripts utilitaires
+│   └── init_env.sh         # Script pour initialiser l'environnement
 ├── src/                    # Code source de l'application
 │   ├── app/                # Application principale
 │   │   └── application.py  # Point d'entrée de l'application
