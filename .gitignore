@@ -8,5 +8,5 @@ __pycache__/
 dist/
 build/
 logs/
-config/config.ini
-**/config.ini
+config/
+*.log
