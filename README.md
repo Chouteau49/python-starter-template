@@ -49,6 +49,12 @@ pip install -r requirements.txt
 
 ### Configurer les fichiers
 
+Exécutez le script `init_env.sh` pour créer le dossier `config` et copier les fichiers de configuration :
+
+```bash
+./scripts/init_env.sh
+```
+
 Copiez le fichier `config/config.example.ini` en `config/config.ini` et remplissez les informations nécessaires.
 
 ## Utilisation
