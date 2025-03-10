@@ -2,6 +2,10 @@
 
 Un template structuré et prêt à l'emploi pour démarrer rapidement vos projets Python. Conçu pour être modulaire, évolutif et adapté aux meilleures pratiques de développement logiciel.
 
+## Version
+
+Current version: 0.1.0
+
 ## Caractéristiques principales
 
 - Une architecture prête à l'emploi
