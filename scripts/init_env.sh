@@ -2,7 +2,7 @@
 
 # Chemins des répertoires
 CONFIG_DIR="./config"
-EXAMPLES_DIR="./config_examples"
+EXAMPLES_DIR="./config_samples"
 
 # Création du répertoire config s'il n'existe pas
 if [ ! -d "$CONFIG_DIR" ]; then
