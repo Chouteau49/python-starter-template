@@ -3,34 +3,9 @@
 Tests unitaires pour `app.handlers.user_handler`.
 """
 
-import sys
-import types
 import asyncio
 import pytest
 from unittest.mock import MagicMock
-
-# Fournir un module `fastapi` factice si non installé pour les tests unitaires
-if 'fastapi' not in sys.modules:
-    fastapi = types.ModuleType('fastapi')
-    class HTTPException(Exception):
-        def __init__(self, status_code: int, detail: str = ""):
-            super().__init__(detail)
-            self.status_code = status_code
-            self.detail = detail
-    class APIRouter:
-        def __init__(self):
-            pass
-        def post(self, *args, **kwargs):
-            def _decorator(fn):
-                return fn
-            return _decorator
-        def get(self, *args, **kwargs):
-            def _decorator(fn):
-                return fn
-            return _decorator
-    fastapi.HTTPException = HTTPException
-    fastapi.APIRouter = APIRouter
-    sys.modules['fastapi'] = fastapi
 
 from app.handlers.user_handler import UserHandler
 
