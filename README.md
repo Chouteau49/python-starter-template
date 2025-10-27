@@ -113,6 +113,11 @@ pytest --cov=src --cov-report=html
 pytest tests/test_user_service.py
 ```
 
+Documentation des tests
+-----------------------
+
+La documentation relative aux modules factices et à l'exécution des tests se trouve dans `docs/TESTS_FAKE_MODULES.md`.
+
 ### Linting et formatage
 
 ```bash
