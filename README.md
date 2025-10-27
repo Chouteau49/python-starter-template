@@ -1,157 +1,178 @@
-# python-starter-template
+# Python Starter Template
 
-Un template structuré et prêt à l'emploi pour démarrer rapidement vos projets Python. Conçu pour être modulaire, évolutif et adapté aux meilleures pratiques de développement logiciel.
+[![CI](https://github.com/Chouteau49/python-starter-template/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/Chouteau49/python-starter-template/actions)
+[![Coverage](https://codecov.io/gh/Chouteau49/python-starter-template/branch/main/graph/badge.svg)](https://codecov.io/gh/Chouteau49/python-starter-template)
+[![Python Version](https://img.shields.io/badge/python-3.13+-blue.svg)](https://python.org)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-## Version
+Un template structuré et prêt à l'emploi pour démarrer rapidement vos projets Python. Conçu pour être modulaire, évolutif et adapté aux meilleures pratiques de développement logiciel moderne (Python 3.13+, POO, SOLID, TDD, etc.).
 
-Current version: 0.1.0
+## Fonctionnalités principales
 
-## Caractéristiques principales
+- **Architecture modulaire** : Couches claires (core, models, services, handlers, db, repo)
+- **Typage statique** : Utilisation de Pydantic et annotations PEP 484/585
+- **Système de logs avancé** : Couleurs, rotation, archivage, timezone Paris
+- **Tests complets** : Unitaire, intégration, E2E avec couverture 85%+
+- **Linting et formatage** : Ruff pour qualité et cohérence
+- **Déploiement moderne** : Docker multi-étapes, stacks Portainer
+- **CI/CD** : GitHub Actions pour automatisation complète
+- **Documentation** : MkDocs avec diagrammes et guides détaillés
 
-- Une architecture prête à l'emploi
-- Prise en charge de Docker
-- Gestion des logs
-- Configuration avec des fichiers .ini
-- CLI avec argparse
-- Un point de départ clair pour les développeurs
+## Démarrage rapide
 
-## Prérequis
+### Prérequis
 
-- Python 3.8+
-- Docker
+- Python 3.13+
+- Docker (optionnel pour développement local)
 
-## Installation
-
-### Cloner le projet
+### Installation
 
 ```bash
+# Cloner le repo
 git clone https://github.com/Chouteau49/python-starter-template.git
 cd python-starter-template
-```
 
-### Créer un environnement virtuel
-
-#### Sous Linux
-
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
-
-#### Sous Windows
-
-```bash
+# Créer un environnement virtuel
 python -m venv venv
-venv\Scripts\activate
+source venv/bin/activate  # Linux/Mac
+# ou venv\Scripts\activate  # Windows
+
+# Installer les dépendances
+pip install -e .[dev]
+
+# Configurer les variables d'environnement
+cp .env.example .env
+# Éditer .env avec vos valeurs
+
+# Installer les hooks pre-commit
+pre-commit install
 ```
 
-### Installer les dépendances
+### Utilisation
 
 ```bash
-pip install -r requirements.txt
-```
+# Lancer les tests
+pytest
 
-### Configurer les fichiers
-
-Exécutez le script `init_env.sh` pour créer le dossier `config` et copier les fichiers de configuration :
-
-```bash
-./scripts/init_env.sh
-```
-
-Copiez le fichier `config/config.example.ini` en `config/config.ini` et remplissez les informations nécessaires.
-
-## Utilisation
-
-### Exécution de l'application
-
-#### En local
-
-```bash
+# Lancer l'application
 python src/main.py
-```
 
-#### Avec Docker Compose
-
-```bash
+# Avec Docker
 docker-compose up --build
 ```
 
-### Commandes disponibles
+## Structure du projet
 
-L'application utilise `argparse` pour gérer les arguments de la ligne de commande. Vous pouvez spécifier les chemins des fichiers de configuration et de logs :
+```
+├── src/
+│   └── app/
+│       ├── core/          # Configuration globale, exceptions
+│       ├── models/        # Modèles de données (Pydantic)
+│       ├── services/      # Logique métier
+│       ├── handlers/      # Gestion des requêtes (FastAPI)
+│       ├── db/            # Accès base de données
+│       └── repo/          # Interfaces repositories
+├── tests/                 # Tests unitaires et intégration
+├── docs/                  # Documentation MkDocs
+├── docker/                # Dockerfiles et compose
+├── .github/               # Workflows CI/CD et instructions Copilot
+├── pyproject.toml         # Configuration moderne (dépendances, outils)
+├── .pre-commit-config.yaml # Hooks de qualité
+└── .env.example           # Variables d'environnement
+```
+
+## Philosophie
+
+Ce template suit les principes modernes de développement Python :
+
+- **POO et SOLID** : Programmation orientée objet avec principes SOLID
+- **TDD** : Tests d'abord, couverture élevée
+- **Qualité** : Linting automatique, formatage, hooks pre-commit
+- **Performance** : Async/await, optimisation profiling
+- **Sécurité** : Validation des entrées, gestion des secrets
+- **Maintenabilité** : Architecture claire, documentation complète
+
+## Docs
+
+📖 [Documentation complète](https://chouteau49.github.io/python-starter-template/)
+
+- [Guide d'installation](https://chouteau49.github.io/python-starter-template/installation/)
+- [Configuration](https://chouteau49.github.io/python-starter-template/configuration/)
+- [Architecture](https://chouteau49.github.io/python-starter-template/architecture/)
+- [API](https://chouteau49.github.io/python-starter-template/api/)
+
+## Développement
+
+### Tests
 
 ```bash
-python src/main.py --config config/config.ini --logging config/logging.ini
+# Tests avec couverture
+pytest --cov=src --cov-report=html
+
+# Tests spécifiques
+pytest tests/test_user_service.py
 ```
 
-## Utilisation de Docker
+Documentation des tests
+-----------------------
 
-Pour construire l'image Docker, utilisez la commande suivante :
-```bash
-docker build -t nom_image ./docker
-```
+La documentation relative aux modules factices et à l'exécution des tests se trouve dans `docs/TESTS_FAKE_MODULES.md`.
 
-Pour lancer les services avec docker-compose, utilisez la commande suivante :
-```bash
-docker-compose -f ./docker/docker-compose.yml up
-```
-
-## Structure des dossiers
-
-```
-python-starter-template/
-├── config/                 # Fichiers de configuration
-│   ├── config.ini          # Fichier de configuration principal
-│   └── logging.ini         # Configuration des logs
-├── config_samples/        # Exemples de fichiers de configuration
-│   ├── config.ini.sample   # Exemple de fichier de configuration
-│   └── logging.ini.sample  # Exemple de fichier de configuration des logs
-├── docker/                 # Fichiers Docker
-│   ├── .dockerignore       # Fichiers et dossiers à ignorer par Docker
-│   ├── Dockerfile          # Instructions pour construire l'image Docker
-│   └── docker-compose.yml  # Configuration de Docker Compose
-├── logs/                   # Dossier pour les fichiers de logs
-├── scripts/                # Scripts utilitaires
-│   └── init_env.sh         # Script pour initialiser l'environnement
-├── src/                    # Code source de l'application
-│   ├── app/                # Application principale
-│   │   └── application.py  # Point d'entrée de l'application
-│   ├── services/           # Services de l'application
-│   │   ├── args.py         # Gestion des arguments de la ligne de commande
-│   │   ├── email_notifier.py # Service de notification par email
-│   │   └── logs.py         # Gestion des logs
-├── .gitignore              # Fichiers et dossiers à ignorer par Git
-├── requirements.txt        # Liste des dépendances Python
-└── README.md               # Documentation du projet
-```
-
-## Contributions
-
-Les contributions sont les bienvenues ! Pour contribuer :
-
-1. Forkez le projet
-2. Créez une branche pour votre fonctionnalité (`git checkout -b feature/ma-fonctionnalite`)
-3. Commitez vos modifications (`git commit -am 'Ajoute une nouvelle fonctionnalité'`)
-4. Pushez votre branche (`git push origin feature/ma-fonctionnalite`)
-5. Ouvrez une Pull Request
-
-## Licence
-
-Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
-
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-
-## Astuces
-
-- Pour personnaliser le projet, modifiez les fichiers de configuration dans le dossier `config`.
-- Ajoutez de nouveaux services en créant des modules dans le dossier `src/services`.
-- Utilisez les logs pour déboguer et surveiller l'application.
-
-## Exemple de commande d'exécution avec Docker Compose
+### Linting et formatage
 
 ```bash
-docker-compose up --build
+# Vérifier le code
+ruff check .
+
+# Formater le code
+ruff format .
 ```
 
-Pour l'instant, il suffit de créer et remplir le fichier `config/config.ini` à partir de l'exemple fourni (`config/config.example.ini`). Lors de l'exécution, un email sera envoyé pour tester la configuration.
+### CHANGELOG
+
+Le CHANGELOG est généré automatiquement avec Towncrier.
+
+```bash
+# Créer un fragment de changement
+echo "Ajout de la fonctionnalité X" > newsfragments/123.feature
+
+# Générer le CHANGELOG
+towncrier build --version 0.2.0 --yes
+
+# Pour une release
+towncrier build --version $(python -c "import setuptools_scm; print(setuptools_scm.get_version())") --yes
+```
+
+## Déploiement
+
+### Avec Docker
+
+```bash
+# Construire l'image
+docker-compose build
+
+# Lancer l'application
+docker-compose up
+```
+
+### Avec Portainer
+
+Utilisez les stacks Portainer pour orchestration en production.
+
+## Contribution
+
+1. Fork le projet
+2. Créer une branche (`git checkout -b feature/AmazingFeature`)
+3. Commit vos changements (`git commit -m 'Add some AmazingFeature'`)
+4. Push vers la branche (`git push origin feature/AmazingFeature`)
+5. Ouvrir une Pull Request
+
+## License
+
+Distribué sous licence MIT. Voir `LICENSE` pour plus d'informations.
+
+## Support
+
+- [Issues](https://github.com/Chouteau49/python-starter-template/issues)
+- [Discussions](https://github.com/Chouteau49/python-starter-template/discussions)
+- [Documentation](https://chouteau49.github.io/python-starter-template/)

@@ -1,21 +1,53 @@
 {
+  // Configuration de débogage pour le Python Starter Template moderne
   // Utilisez IntelliSense pour en savoir plus sur les attributs possibles.
   // Pointez pour afficher la description des attributs existants.
   // Pour plus d'informations, visitez : https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "RUN MAIN DEBUG",
-      "type": "python",
+      "name": "Démarrer l'application (Debug)",
+      "type": "debugpy",
       "request": "launch",
       "program": "${workspaceFolder}/src/main.py",
       "console": "integratedTerminal",
+      "envFile": "${workspaceFolder}/.env",
+      "python": "${workspaceFolder}/venv/Scripts/python.exe",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Lancer l'API FastAPI (Debug)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
       "args": [
-        "--config",
-        "config/config.ini",
-        "--logging",
-        "config/logging.ini"
-      ]
+        "app.handlers.user_handler:app",
+        "--reload",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "8000"
+      ],
+      "console": "integratedTerminal",
+      "envFile": "${workspaceFolder}/.env",
+      "python": "${workspaceFolder}/venv/Scripts/python.exe",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Lancer les tests (Debug)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "pytest",
+      "args": [
+        "tests/",
+        "-v",
+        "--cov=src",
+        "--cov-report=html"
+      ],
+      "console": "integratedTerminal",
+      "envFile": "${workspaceFolder}/.env",
+      "python": "${workspaceFolder}/venv/Scripts/python.exe",
+      "cwd": "${workspaceFolder}"
     }
   ]
 }

@@ -1,48 +1,71 @@
-import logging
-from configparser import ConfigParser
-from services.logs import Logs
-from services.args import Args
-from services.email_notifier import EmailNotifier
+# -*- coding: utf-8 -*-
+"""
+Application principale du template Python moderne.
+"""
+
+from app.repo.user_repository import InMemoryUserRepository
+from app.services.logs import get_logger
+from app.services.user_service import UserService
+
+from ._version import version as __version__
 
 
 class Application:
     """
-    Classe principale de l'application.
+    Classe principale de l'application avec architecture moderne.
     """
-    __banner__ = "Template de base pour projet python"
-    __version__ = "1.0.0"
+
+    __banner__ = "Python Starter Template - Architecture Moderne"
 
     def __init__(self):
         """
-        Initialise l'application avec les arguments, les logs et la configuration.
+        Initialise l'application avec les services modernes.
         """
-        self._args = Args().parse()
-        self._logs = Logs(self._args.logging)
-        self._conf = ConfigParser()
-        self._conf.read(self._args.config)
-        self._email_notifier = EmailNotifier(self._args.config)
+        # Configuration des logs
+        self.logger = get_logger(__name__)
+
+        # Injection de dépendances
+        user_repo = InMemoryUserRepository()
+        self.user_service = UserService(user_repo)
+
+        self.logger.info("Application initialisée avec succès")
 
     def run(self) -> bool:
         """
-        Exécute l'application.
-        """
-        logging.info(self.__banner__)
-        logging.info(f"Version: {self.__version__}")
-        logging.info("Démarrage de l'application")
-        self.send_error_email(Exception("Test d'envoi d'email d'erreur"))
-        logging.info("Fin de l'exécution de l'application")
-        return True
-
-    def send_error_email(self, error: Exception):
-        """
-        Envoie un email en cas d'erreur.
+        Exécute l'application et démontre les fonctionnalités.
         """
         try:
-            self._email_notifier.send_email(
-                "Erreur dans l'application",
-                f"Une erreur est survenue lors de l'exécution de l'application: \n\n{
-                    error}"
-            )
-            logging.info("Email d'erreur envoyé avec succès.")
+            self.logger.info(self.__banner__)
+            self.logger.info(f"Version: {__version__}")
+            self.logger.info("Démarrage de l'application moderne")
+
+            # Démonstration des nouvelles fonctionnalités
+            self._demonstrate_features()
+
+            self.logger.info("Fin de l'exécution de l'application")
+            return True
+
         except Exception as e:
-            logging.error(f"Erreur lors de l'envoi de l'email d'erreur: {e}")
+            self.logger.critical(f"Erreur critique dans l'application : {e}")
+            return False
+
+    def _demonstrate_features(self) -> None:
+        """
+        Démontre les fonctionnalités du template moderne.
+        """
+        self.logger.info("=== Démonstration des fonctionnalités ===")
+
+        # Création d'un utilisateur
+        user = self.user_service.create_user("Demo User", "demo@example.com")
+        self.logger.info(f"Utilisateur créé : {user.name} ({user.email})")
+
+        # Récupération d'un utilisateur
+        retrieved = self.user_service.get_user_by_id(user.id)
+        if retrieved:
+            self.logger.info(f"Utilisateur récupéré : {retrieved.name}")
+
+        # Liste des utilisateurs
+        all_users = self.user_service.get_all_users()
+        self.logger.info(f"Nombre total d'utilisateurs : {len(all_users)}")
+
+        self.logger.info("=== Fin de la démonstration ===")

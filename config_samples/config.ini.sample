@@ -1,4 +1,0 @@
-[SMTP]
-smtp_server = smtp.example.com
-from_email = example@example.com
-to_email = example@example.com
