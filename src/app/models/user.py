@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Modèles de données de l'application.
 """

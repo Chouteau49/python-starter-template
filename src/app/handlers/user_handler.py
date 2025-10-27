@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Gestionnaires de requêtes (routes, contrôleurs).
 """

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Système de logs moderne avec couleurs et rotation.
 """
@@ -57,6 +58,7 @@ class Logger:
                 file_path,
                 maxBytes=10 * 1024 * 1024,
                 backupCount=5,  # 10MB, 5 backups
+                encoding='utf-8'  # Encodage UTF-8 pour supporter les caractères accentués
             )
             file_handler.setFormatter(formatter)
             self.logger.addHandler(file_handler)
