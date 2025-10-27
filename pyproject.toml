@@ -32,6 +32,9 @@ dev = [
     "sqlalchemy>=2.0.0",
     "fastapi>=0.95.0",
     "pytest-asyncio>=0.22.0",
+    # Extras / runtime data useful for development & tests
+    "pydantic[email]>=2.0.0",  # fournit email-validator via l'extra
+    "tzdata>=2025.2",         # nécessaire pour ZoneInfo (ex: Europe/Paris)
 ]
 
 [tool.setuptools_scm]
