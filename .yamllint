@@ -1,0 +1,10 @@
+extends: default
+
+rules:
+  # On désactive ces règles pour accommoder les environnements Windows/CI
+  document-start: disable   # warning about missing leading '---'
+  new-lines: disable        # CRLF vs LF differences
+  truthy: disable          # GitHub Actions uses expressions that look truthy to yamllint
+  line-length:
+    max: 120
+    level: warning
