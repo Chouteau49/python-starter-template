@@ -3,28 +3,8 @@
 Tests unitaires pour `app.db.connection`.
 """
 
-import sys
-import types
 import pytest
 from unittest.mock import patch, MagicMock
-
-# Insérer un module sqlalchemy factice si l'environnement ne l'a pas installé
-if 'sqlalchemy' not in sys.modules:
-    sqlalchemy = types.ModuleType('sqlalchemy')
-    sqlalchemy.Engine = object
-    def _fake_create_engine(url):
-        return MagicMock()
-    sqlalchemy.create_engine = _fake_create_engine
-    orm = types.ModuleType('sqlalchemy.orm')
-    # Provide Session and sessionmaker symbols expected by the module
-    class Session:  # dummy type for annotation compatibility
-        pass
-    def _fake_sessionmaker(**kwargs):
-        return MagicMock()
-    orm.Session = Session
-    orm.sessionmaker = _fake_sessionmaker
-    sys.modules['sqlalchemy'] = sqlalchemy
-    sys.modules['sqlalchemy.orm'] = orm
 
 from app.db.connection import DatabaseConnection
 
