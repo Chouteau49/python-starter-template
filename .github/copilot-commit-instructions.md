@@ -27,3 +27,7 @@ Génère tous les messages de commit en français.
 - feat: ajouter l'authentification par email
 - fix: corriger l'erreur de validation du formulaire
 - docs: mettre à jour le guide d'installation
+
+## Prompt associé
+
+Pour une génération assistée et plus professionnelle, utilise le prompt défini dans `prompts/commit.prompt.md`, qui inclut des conventions Git modernes (2025) et des bonnes pratiques pour Python.

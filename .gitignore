@@ -1,12 +1,71 @@
+# Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
-*.env
-.env
 *.egg-info/
 dist/
 build/
+*.whl
+*.tar.gz
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+.tox/
+
+# Environnements virtuels
+venv/
+env/
+ENV/
+.venv/
+.env
+.env.local
+.env.*.local
+
+# Logs et données temporaires
 logs/
-config/
 *.log
+tmp/
+temp/
+
+# Configuration sensible (si présente)
+config/
+secrets.json
+*.key
+*.pem
+
+# Outils de développement
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+
+# Système d'exploitation
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Documentation
+docs/site/
+docs/build/
+
+# Docker (optionnel, selon usage)
+# docker-compose.override.yml
+
+# News fragments (pour Towncrier)
+# newsfragments/*.feature
+# newsfragments/*.bugfix
+# etc. - décommenter si vous voulez ignorer après génération
+
+# Fichiers temporaires
+*.tmp
+*.bak
+*.orig
