@@ -69,3 +69,6 @@ docs/build/
 *.tmp
 *.bak
 *.orig
+# Coverage reports
+coverage.txt
+htmlcov/
