@@ -1,0 +1,36 @@
+site_name: Python Starter Template
+site_description: Un template moderne pour projets Python
+site_author: Chouteau49
+site_url: https://chouteau49.github.io/python-starter-template/
+
+theme:
+  name: material
+  palette:
+    primary: blue
+    accent: blue
+
+nav:
+  - Accueil: index.md
+  - Installation: installation.md
+  - Configuration: configuration.md
+  - Architecture: architecture.md
+  - API: api.md
+  - Déploiement: deployment.md
+  - Releases: releases.md
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_source: true
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences

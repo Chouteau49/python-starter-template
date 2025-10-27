@@ -1,2 +1,0 @@
-# Ce fichier liste les dépendances nécessaires pour exécuter le projet Python.
-# Utilisez la commande `pip install -r requirements.txt` pour installer les dépendances.

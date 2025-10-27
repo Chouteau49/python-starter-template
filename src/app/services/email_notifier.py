@@ -1,6 +1,6 @@
 import smtplib
-from email.mime.text import MIMEText
 from configparser import ConfigParser
+from email.mime.text import MIMEText
 
 
 class EmailNotifier:
@@ -19,14 +19,14 @@ class EmailNotifier:
         """
         Envoie un email avec le sujet et le corps spécifiés.
         """
-        smtp_server = self.config.get('SMTP', 'smtp_server')
-        from_email = self.config.get('SMTP', 'from_email')
-        to_email = self.config.get('SMTP', 'to_email')
+        smtp_server = self.config.get("SMTP", "smtp_server")
+        from_email = self.config.get("SMTP", "from_email")
+        to_email = self.config.get("SMTP", "to_email")
 
         msg = MIMEText(body)
-        msg['Subject'] = subject
-        msg['From'] = from_email
-        msg['To'] = to_email
+        msg["Subject"] = subject
+        msg["From"] = from_email
+        msg["To"] = to_email
 
         with smtplib.SMTP(smtp_server) as server:
             server.sendmail(from_email, [to_email], msg.as_string())
