@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 """
 Tests unitaires pour `app.db.connection`.
 """
 
-import pytest
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
 
+import pytest
 from app.db.connection import DatabaseConnection
 
 
@@ -15,8 +14,8 @@ def test_get_session_raises_when_not_connected():
         db.get_session()
 
 
-@patch('app.db.connection.create_engine')
-@patch('app.db.connection.sessionmaker')
+@patch("app.db.connection.create_engine")
+@patch("app.db.connection.sessionmaker")
 def test_connect_and_get_session_success(mock_sessionmaker, mock_create_engine):
     mock_engine = MagicMock()
     mock_create_engine.return_value = mock_engine
@@ -32,12 +31,12 @@ def test_connect_and_get_session_success(mock_sessionmaker, mock_create_engine):
     assert db.SessionLocal is mock_SessionLocal
 
     # Ensure get_session returns the result of calling SessionLocal
-    mock_SessionLocal.return_value = 'session-instance'
+    mock_SessionLocal.return_value = "session-instance"
     session = db.get_session()
-    assert session == 'session-instance'
+    assert session == "session-instance"
 
 
-@patch('app.db.connection.create_engine')
+@patch("app.db.connection.create_engine")
 def test_connect_failure_raises(mock_create_engine):
     mock_create_engine.side_effect = Exception("no db")
 

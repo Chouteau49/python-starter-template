@@ -1,8 +1,8 @@
-# -*- coding: utf-8 -*-
 """
 Configuration globale de l'application.
 """
 
+from pydantic import ConfigDict
 from pydantic_settings import BaseSettings
 
 
@@ -19,9 +19,9 @@ class Settings(BaseSettings):
     smtp_from_email: str | None = None
     smtp_to_email: str | None = None
 
-    class Config:
-        env_file = ".env"
-        case_sensitive = False
+    model_config = ConfigDict(
+        env_prefix="",
+    )
 
 
 # Instance globale des settings

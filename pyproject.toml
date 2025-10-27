@@ -39,7 +39,7 @@ write_to = "src/app/_version.py"
 
 [tool.ruff]
 line-length = 88
-target-version = "py313"
+target-version = "py312"
 
 [tool.ruff.lint]
 select = [
@@ -59,7 +59,7 @@ ignore = [
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401"]
-"tests/**/*" = ["B011"]  # assert false
+"tests/**/*" = ["B011", "B017"]  # assert false + pytest.raises(Exception)
 
 [tool.pytest.ini_options]
 minversion = "7.0"

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Exceptions personnalisées pour l'application.
 """

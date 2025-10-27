@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 """
 Modèles de données de l'application.
 """
 
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, ConfigDict, EmailStr
 
 
 class User(BaseModel):
@@ -16,5 +15,7 @@ class User(BaseModel):
     email: EmailStr
     is_active: bool = True
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(
+        from_attributes=True,
+        extra="forbid",
+    )

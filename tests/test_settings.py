@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 """
 Tests pour la configuration de l'application.
 """
 
-import pytest
 from app.core.settings import Settings
 
 

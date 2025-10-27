@@ -1,10 +1,8 @@
-﻿# -*- coding: utf-8 -*-
 """
 Tests pour la connexion à la base de données (tests unitaires sans SQLAlchemy).
 """
 
-import pytest
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
 
 class DatabaseConnection:

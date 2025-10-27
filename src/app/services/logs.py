@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Système de logs moderne avec couleurs et rotation.
 """
@@ -9,9 +8,8 @@ from logging.handlers import RotatingFileHandler
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from rich.logging import RichHandler
-
 from app.core.settings import settings
+from rich.logging import RichHandler
 
 
 class Logger:
@@ -58,7 +56,7 @@ class Logger:
                 file_path,
                 maxBytes=10 * 1024 * 1024,
                 backupCount=5,  # 10MB, 5 backups
-                encoding='utf-8'  # Encodage UTF-8 pour supporter les caractères accentués
+                encoding="utf-8",  # Encodage UTF-8 pour supporter les caractères accentués
             )
             file_handler.setFormatter(formatter)
             self.logger.addHandler(file_handler)

@@ -1,12 +1,11 @@
-# -*- coding: utf-8 -*-
 """
 Tests unitaires pour `app.handlers.user_handler`.
 """
 
 import asyncio
-import pytest
 from unittest.mock import MagicMock
 
+import pytest
 from app.handlers.user_handler import UserHandler
 
 

@@ -1,10 +1,13 @@
-# -*- coding: utf-8 -*-
 """
 Tests pour les exceptions personnalisées.
 """
 
-import pytest
-from app.core.exceptions import AppException, UserNotFoundException, ValidationException, DatabaseException
+from app.core.exceptions import (
+    AppException,
+    DatabaseException,
+    UserNotFoundException,
+    ValidationException,
+)
 
 
 class TestExceptions:
