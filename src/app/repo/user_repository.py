@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Interfaces et implémentations pour les repositories.
 """

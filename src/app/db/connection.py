@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Accès aux données (connexions DB).
 """
