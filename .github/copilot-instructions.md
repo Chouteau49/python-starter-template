@@ -2,6 +2,15 @@
 
 Ces instructions guident le développement d'une application Python moderne (version 3.13 ou supérieure) en respectant les bonnes pratiques 2025. Priorise la qualité, la maintenabilité et la scalabilité.
 
+## Environnement Virtuel
+
+- **Utilisation du virtualenv `.venv`** :
+  - Avant toute installation de dépendances, crée ou active l'environnement virtuel local avec la commande :
+    `source .venv/bin/activate` (Linux/Mac) ou `.venv\Scripts\activate` (Windows).
+  - Toutes les installations de paquets Python doivent être réalisées dans cet environnement virtuel, jamais directement sur le système Arch Linux ou Windows.
+  - Vérifie que le dossier `.venv/` est bien présent à la racine du projet et que le fichier `pyproject.toml` référence cet environnement.
+  - Ajoute `.venv/` au `.gitignore` pour éviter de versionner l'environnement.
+
 ## Architecture et Structure
 
 - **Couches modulaires** : Organise le code en couches claires (services, models, core, handlers, db, repo, etc.).

@@ -9,6 +9,9 @@ repos:
     rev: 1.7.6
     hooks:
       - id: bandit
+        # N'exécuter bandit que sur le dossier `src/` pour éviter les faux-positifs
+        # sur les fichiers de tests qui utilisent des `assert`.
+        files: ^src/
         args: ["-r", "src/"]
         additional_dependencies: ["pbr"]
 
