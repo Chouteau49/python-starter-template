@@ -15,6 +15,7 @@ dependencies = [
     "colorama>=0.4.6",  # Pour logs avec couleurs
     "rich>=13.0.0",     # Pour logs avancés et console
     "pydantic>=2.0.0",  # Pour modèles typés
+    "pydantic-settings>=2.0.0",  # Pour gestion des settings
     "python-dotenv>=1.0.0",  # Pour variables d'env
     "prometheus-client>=0.19.0",  # Pour métriques
     "pytest>=7.0.0",    # Pour tests
