@@ -28,6 +28,7 @@ ENV/
 .env.*.local
 
 # Logs et données temporaires
+site/
 logs/
 *.log
 tmp/
