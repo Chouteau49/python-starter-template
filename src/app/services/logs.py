@@ -8,9 +8,8 @@ from logging.handlers import RotatingFileHandler
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from rich.logging import RichHandler
-
 from app.core.settings import settings
+from rich.logging import RichHandler
 
 
 class Logger:
