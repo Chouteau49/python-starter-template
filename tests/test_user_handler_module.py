@@ -6,7 +6,6 @@ import asyncio
 from unittest.mock import MagicMock
 
 import pytest
-
 from app.handlers.user_handler import UserHandler
 
 
