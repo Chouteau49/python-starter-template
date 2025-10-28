@@ -1,3 +1,4 @@
+# Trigger CI: commit mineur pour relancer le pipeline
 import sys
 
 from app.application import Application
