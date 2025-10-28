@@ -15,7 +15,8 @@ class AppException(Exception):
     def __init__(self, message: str, status_code: int = 500):
         super().__init__(message)
         self.status_code = status_code
-        logger.error(f"Exception levée : {message}")
+        # Ne pas logger automatiquement ici pour éviter les double-logs.
+        # Le logging doit être effectué par le point de gestion (except/handler).
 
 
 class UserNotFoundException(AppException):

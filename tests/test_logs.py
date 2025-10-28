@@ -51,7 +51,9 @@ class TestLogger:
         mock_file_handler.assert_called_once_with(
             "logs/app.log", maxBytes=10 * 1024 * 1024, backupCount=5, encoding="utf-8"
         )
-        mock_path_instance.parent.mkdir.assert_called_once_with(exist_ok=True)
+        mock_path_instance.parent.mkdir.assert_called_once_with(
+            parents=True, exist_ok=True
+        )
         mock_logger.info.assert_called_with("Système de logs configuré")
 
     @patch("app.services.logs.logging")
@@ -215,8 +217,9 @@ class TestLogger:
 
         logger_instance = Logger(settings=mock_settings)
         logger_instance.configure()
-
-        mock_path_instance.parent.mkdir.assert_called_once_with(exist_ok=True)
+        mock_path_instance.parent.mkdir.assert_called_once_with(
+            parents=True, exist_ok=True
+        )
         mock_logger.info.assert_called_with("Système de logs configuré")
 
     @patch("app.services.logs.logging")

@@ -53,7 +53,8 @@ class Logger:
         # Handler fichier avec rotation
         if file_path:
             log_dir = Path(file_path).parent
-            log_dir.mkdir(exist_ok=True)
+            # Assurer la création récursive des dossiers si nécessaire
+            log_dir.mkdir(parents=True, exist_ok=True)
             file_handler = RotatingFileHandler(
                 file_path,
                 maxBytes=10 * 1024 * 1024,
