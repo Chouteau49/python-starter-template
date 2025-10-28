@@ -36,6 +36,16 @@ jobs:
           . venv/bin/activate
           pip list
 
+      - name: Afficher la version de Ruff
+        run: |
+          . venv/bin/activate
+          ruff --version
+
+      - name: Lister les fichiers non conformes Ruff
+        run: |
+          . venv/bin/activate
+          ruff check src tests --show-fixes
+
       - name: Linting avec Ruff
         run: |
           . venv/bin/activate
