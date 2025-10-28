@@ -3,8 +3,9 @@ Tests pour les modèles.
 """
 
 import pytest
-from app.models.user import User
 from pydantic import ValidationError
+
+from app.models.user import User
 
 
 class TestUserModel:
