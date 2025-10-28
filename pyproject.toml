@@ -38,8 +38,7 @@ dev = [
 ]
 
 [tool.setuptools_scm]
-# write_to = "src/app/_version.py"
-version_file_template = "version_file_template.txt"
+write_to = "src/app/_version.py"
 
 [tool.setuptools.packages.find]
 where = ["src"]
