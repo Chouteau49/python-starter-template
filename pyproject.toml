@@ -40,7 +40,6 @@ dev = [
 [tool.setuptools_scm]
 # write_to = "src/app/_version.py"
 version_file_template = "version_file_template.txt"
-include_package_data = true
 
 [tool.setuptools.packages.find]
 where = ["src"]
