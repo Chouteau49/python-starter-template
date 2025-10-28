@@ -1,6 +1,3 @@
-# This workflow will install Python dependencies, run tests, lint, and measure coverage
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
-
 name: CI/CD Pipeline
 
 on:
@@ -12,178 +9,81 @@ on:
       - main
 
 jobs:
-  lint:
-    name: Linting et Formatage
+  lint_and_security:
+    name: Linting, Formatage et Sécurité
     runs-on: ubuntu-latest
     steps:
       - name: Checkout du code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Installer Python
-        uses: actions/setup-python@v4
+      - name: Installer Python 3.12
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.13
+          python-version: 3.12 # Correspond à target-version dans pyproject.toml
 
-      - name: Installer les dépendances
-        run: |
-          python -m venv venv
-          . venv/bin/activate
-          pip install --upgrade pip
-          pip install -e .[dev]
+      - name: Mise en cache des dépendances
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('pyproject.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
 
-      - name: Vérifier les dépendances installées
-        run: |
-          . venv/bin/activate
-          pip list
+      - name: Installer les dépendances (avec setuptools/dev)
+        # Utilise l'installation en mode éditable avec l'extra [dev] pour inclure ruff, pre-commit, bandit, etc.
+        run: pip install --upgrade pip setuptools && pip install -e .[dev]
 
-      - name: Afficher la version de Ruff
-        run: |
-          . venv/bin/activate
-          ruff --version
+      - name: Vérification du Linting avec Ruff
+        # ruff check retourne une erreur si des problèmes sont trouvés.
+        run: ruff check src tests
 
-      - name: Lister les fichiers non conformes Ruff
-        run: |
-          . venv/bin/activate
-          ruff check src tests --show-fixes
+      - name: Vérification du Formatage avec Ruff Format
+        # ruff format --check s'assure qu'aucun fichier n'a besoin d'être reformaté.
+        run: ruff format --check src tests
 
-      - name: Linting avec Ruff
-        run: |
-          . venv/bin/activate
-          ruff check src tests
+      - name: Analyse Statique des Types avec MyPy
+        # Utilise l'argument --ignore-missing-imports configuré dans .pre-commit-config.yaml
+        run: mypy src --ignore-missing-imports
+
+      - name: Analyse de Sécurité avec Bandit
+        # Utilise la configuration de pyproject.toml (-c) et analyse le code source (src)
+        run: bandit -r src -c pyproject.toml
+
 
   test:
-    name: Tests Unitaires et Couverture
+    name: Exécution des Tests et Couverture
     runs-on: ubuntu-latest
-    needs: lint
+    # Teste sur deux versions de Python pour une meilleure compatibilité
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+
     steps:
       - name: Checkout du code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Générer _version.py avec setuptools-scm
-        run: |
-          python -m setuptools_scm
-
-      - name: Installer Python
-        uses: actions/setup-python@v4
+      - name: Installer Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.13
+          python-version: ${{ matrix.python-version }}
+
+      - name: Mise en cache des dépendances
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-${{ matrix.python-version }}-pip-${{ hashFiles('pyproject.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.python-version }}-pip-
 
       - name: Installer les dépendances
+        run: pip install --upgrade pip setuptools && pip install -e .[dev]
+
+      - name: Exécuter les Tests avec Couverture
+        # Utilise les options définies dans [tool.pytest.ini_options] pour le rapport de couverture
+        run: pytest
+
+      - name: Afficher le résumé de la Couverture
         run: |
-          python -m venv venv
-          . venv/bin/activate
-          pip install --upgrade pip
-          pip install .[dev]
-
-      - name: Vérifier les dépendances installées
-        run: |
-          . venv/bin/activate
-          pip list
-
-      - name: Vérifier la présence de _version.py
-        run: |
-          find venv -name _version.py || true
-
-      - name: Exécuter les tests avec couverture
-        run: |
-          . venv/bin/activate
-          pytest --cov=src --cov-report=xml --cov-report=html
-
-      - name: Upload des rapports de couverture
-        uses: codecov/codecov-action@v3
-        with:
-          file: ./coverage.xml
-          flags: unittests
-          name: codecov-umbrella
-
-
-  build-and-push:
-    name: Build et Push Docker Image
-    runs-on: ubuntu-latest
-    needs: test
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
-    outputs:
-      image-tag: ${{ steps.meta.outputs.tags }}
-      image-digest: ${{ steps.build.outputs.digest }}
-
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v4
-          with:
-            fetch-depth: 0  # Récupère tous les tags pour setuptools-scm
-
-        - name: Set up Docker Buildx
-          uses: docker/setup-buildx-action@v3
-
-        - name: Log in to GitHub Container Registry
-          uses: docker/login-action@v3
-          with:
-            registry: ${{ env.REGISTRY }}
-            username: ${{ github.actor }}
-            password: ${{ secrets.GITHUB_TOKEN }}
-
-        - name: Extract metadata
-          id: meta
-          uses: docker/metadata-action@v5
-          with:
-            images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-            tags: |
-              type=raw,value=latest
-              type=sha,prefix={{branch}}-
-              type=semver,pattern={{version}}
-              type=semver,pattern={{major}}.{{minor}}
-
-        - name: Get version for build
-          id: version
-          run: |
-            # Récupère le dernier tag ou utilise un fallback
-            VERSION=$(git describe --tags --always 2>/dev/null || echo "0.0.0")
-
-            # Si c'est juste un SHA (pas de tag trouvé)
-            if [[ ! "$VERSION" =~ ^v?[0-9] ]]; then
-              VERSION="0.0.0-${VERSION}"
-            else
-              # Supprime le 'v' initial si présent
-              VERSION=${VERSION#v}
-
-              # Convertit format git (1.4.0-1-g0c70a06) en PEP 440 (1.4.0.post1+g0c70a06)
-              if [[ "$VERSION" =~ ^([0-9]+\.[0-9]+\.[0-9]+)-([0-9]+)-g([0-9a-f]+)$ ]]; then
-                BASE="${BASH_REMATCH[1]}"
-                COMMITS="${BASH_REMATCH[2]}"
-                SHA="${BASH_REMATCH[3]}"
-                VERSION="${BASE}.post${COMMITS}-${SHA}"
-              fi
-            fi
-
-            # Validation du format du tag Docker
-            if [[ ! "$VERSION" =~ ^[a-zA-Z0-9_.-]+$ ]]; then
-              echo "::error::Tag Docker invalide: $VERSION"
-              exit 1
-            fi
-
-            echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
-
-        - name: Build and push Docker image
-          id: build
-          uses: docker/build-push-action@v6
-          with:
-            context: .
-            file: ./docker/Dockerfile
-            push: true
-            tags: ${{ steps.meta.outputs.tags }}
-            labels: ${{ steps.meta.outputs.labels }}
-            cache-from: type=gha
-            cache-to: type=gha,mode=max
-            build-args: |
-              UNAME=julien
-              UID=1000
-              GID=1000
-              SETUPTOOLS_SCM_PRETEND_VERSION=${{ steps.version.outputs.VERSION }}
-
-        - name: Notification de succès
-          if: success()
-          run: |
-            echo "✅ Build Docker réussi"
-            echo "🐳 Image: ${{ steps.meta.outputs.tags }}"
-            echo "📦 Digest: ${{ steps.build.outputs.digest }}"
-            echo "🔄 Watchtower détectera automatiquement la mise à jour dans les 5 minutes"
+          echo "::group::Rapport de Couverture"
+          coverage report -m
+          echo "::endgroup::"
