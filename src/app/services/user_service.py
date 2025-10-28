@@ -4,6 +4,7 @@ Services métier de l'application.
 
 import logging
 
+from app.core.settings import Settings
 from app.models.user import User
 from app.repo.user_repository import UserRepository
 
@@ -15,8 +16,9 @@ class UserService:
     Service pour la gestion des utilisateurs.
     """
 
-    def __init__(self, user_repo: UserRepository):
+    def __init__(self, user_repo: UserRepository, settings: Settings):
         self.user_repo = user_repo
+        self.settings = settings
 
     def create_user(self, name: str, email: str) -> User:
         """

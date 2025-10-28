@@ -2,10 +2,12 @@
 import sys
 
 from app.application import Application
+from app.core.settings import Settings
 
 
 def main():
-    app = Application()
+    settings = Settings()
+    app = Application(settings)
     success = app.run()
     sys.exit(not success)
 

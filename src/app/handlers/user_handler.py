@@ -6,6 +6,7 @@ import logging
 
 from fastapi import APIRouter, HTTPException
 
+from app.core.settings import Settings
 from app.models.user import User
 from app.services.user_service import UserService
 
@@ -19,8 +20,9 @@ class UserHandler:
     Handler pour les endpoints utilisateurs.
     """
 
-    def __init__(self, user_service: UserService):
+    def __init__(self, user_service: UserService, settings: Settings):
         self.user_service = user_service
+        self.settings = settings
 
     @router.post("/users", response_model=User)
     async def create_user(self, name: str, email: str) -> User:

@@ -2,8 +2,9 @@
 Application principale du template Python moderne.
 """
 
+from app.core.settings import Settings
 from app.repo.user_repository import InMemoryUserRepository
-from app.services.logs import get_logger
+from app.services.logs import get_logger_injected
 from app.services.user_service import UserService
 
 from ._version import version as __version__
@@ -16,17 +17,14 @@ class Application:
 
     __banner__ = "Python Starter Template - Architecture Moderne"
 
-    def __init__(self):
+    def __init__(self, settings: Settings | None = None):
         """
         Initialise l'application avec les services modernes.
         """
-        # Configuration des logs
-        self.logger = get_logger(__name__)
-
-        # Injection de dépendances
+        self.settings = settings or Settings()
+        self.logger = get_logger_injected(__name__, self.settings)
         user_repo = InMemoryUserRepository()
-        self.user_service = UserService(user_repo)
-
+        self.user_service = UserService(user_repo, self.settings)
         self.logger.info("Application initialisée avec succès")
 
     def run(self) -> bool:
@@ -59,12 +57,13 @@ class Application:
         self.logger.info(f"Utilisateur créé : {user.name} ({user.email})")
 
         # Récupération d'un utilisateur
-        retrieved = self.user_service.get_user_by_id(user.id)
-        if retrieved:
-            self.logger.info(f"Utilisateur récupéré : {retrieved.name}")
+        if user.id is not None:
+            retrieved = self.user_service.get_user_by_id(int(user.id))
+            if retrieved:
+                self.logger.info(f"Utilisateur récupéré : {retrieved.name}")
 
-        # Liste des utilisateurs
-        all_users = self.user_service.get_all_users()
-        self.logger.info(f"Nombre total d'utilisateurs : {len(all_users)}")
+                # Liste des utilisateurs
+                all_users = self.user_service.get_all_users()
+                self.logger.info(f"Nombre total d'utilisateurs : {len(all_users)}")
 
         self.logger.info("=== Fin de la démonstration ===")

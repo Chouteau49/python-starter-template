@@ -10,8 +10,8 @@ class DatabaseConnection:
 
     def __init__(self, database_url):
         self.database_url = database_url
-        self.engine = None
-        self.SessionLocal = None
+        self.engine: object = None
+        self.SessionLocal: object = None
 
     def connect(self):
         """Simule la connexion à la base de données."""
@@ -60,6 +60,7 @@ class TestDatabaseConnection:
         db = DatabaseConnection("sqlite:///./test.db")
         # Simuler une connexion
         db.engine = MagicMock()
+        db.engine.dispose = MagicMock()
         db.SessionLocal = MagicMock()
 
         db.disconnect()

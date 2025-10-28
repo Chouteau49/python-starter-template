@@ -22,7 +22,3 @@ class Settings(BaseSettings):
     model_config = ConfigDict(
         env_prefix="",
     )
-
-
-# Instance globale des settings
-settings = Settings()

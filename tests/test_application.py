@@ -2,15 +2,19 @@
 Tests pour l'application principale.
 """
 
-from unittest.mock import MagicMock, patch
+import os
+import sys
+from unittest.mock import ANY, MagicMock, patch
 
 from app.application import Application
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../src")))
 
 
 class TestApplication:
     """Tests pour l'application principale."""
 
-    @patch("app.application.get_logger")
+    @patch("app.application.get_logger_injected")
     @patch("app.application.UserService")
     @patch("app.application.InMemoryUserRepository")
     def test_application_initialization(self, mock_repo, mock_service, mock_logger):
@@ -26,11 +30,11 @@ class TestApplication:
         mock_repo.assert_called_once()
 
         # Vérifier que le service est créé avec le repository
-        mock_service.assert_called_once_with(mock_repo.return_value)
+        mock_service.assert_called_once_with(mock_repo.return_value, ANY)
 
-        assert app.user_service == mock_service.return_value
+        assert app.user_service == mock_service.return_value  # nosec
 
-    @patch("app.application.get_logger")
+    @patch("app.application.get_logger_injected")
     @patch("app.application.UserService")
     @patch("app.application.InMemoryUserRepository")
     def test_run_demo(self, mock_repo, mock_service, mock_logger):
@@ -57,7 +61,9 @@ class TestApplication:
         app.run()
 
         # Vérifier que les logs sont appelés
-        assert mock_logger_instance.info.call_count >= 6  # Plusieurs appels de log
+        assert (
+            mock_logger_instance.info.call_count >= 6
+        )  # Plusieurs appels de log  # nosec
 
         # Vérifier que les méthodes du service sont appelées
         mock_user_service.create_user.assert_called_once_with(

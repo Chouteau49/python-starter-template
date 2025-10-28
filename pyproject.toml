@@ -26,7 +26,7 @@ dependencies = [
 dev = [
     "pre-commit>=3.0.0",
     "mkdocs>=1.5.0",
-    "mkdocs-material>=9.0.0",
+    "mkdocs-material>=9.9.0",
     "towncrier>=23.0.0",
     # Optional dev dependencies for running more realistic tests
     "sqlalchemy>=2.0.0",
@@ -69,7 +69,9 @@ ignore = [
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401"]
-"tests/**/*" = ["B011", "B017"]  # assert false + pytest.raises(Exception)
+"tests/**/*" = ["B011", "B017", "E402"] # Ajout de E402 ici pour ignorer sys.path.insert dans tous les sous-dossiers
+"tests/*" = ["E402"] # Pour les fichiers à la racine du dossier tests
+
 
 [tool.pytest.ini_options]
 minversion = "7.0"
@@ -131,6 +133,13 @@ showcontent = true
 directory = "misc"
 name = "Divers"
 showcontent = true
+
+# Configuration pour Bandit
+[tool.bandit]
+# Spécifie les fichiers à exclure (tests) et les tests à ignorer
+exclude_dirs = ["tests"]
+targets = ["src"] # Se concentrer uniquement sur le code source de production
+skips = ["B101"] # B101 (assert) est souvent désactivé pour les tests (même si exclude_dirs est là, c'est une sécurité)
 
 [tool.poetry.dependencies]
 pydantic-settings = ">=2.0.0"

@@ -1,4 +1,17 @@
 repos:
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.8.0
+    hooks:
+      - id: mypy
+        args: ["--ignore-missing-imports"]
+
+  - repo: https://github.com/pycqa/bandit
+    rev: 1.7.6
+    hooks:
+      - id: bandit
+        args: ["-r", "src/"]
+        additional_dependencies: ["pbr"]
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
     hooks:
@@ -15,21 +28,19 @@ repos:
         files: \.(yml|yaml)$
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Il est recommandé d'utiliser la dernière révision stable (v0.1.x ou plus récente)
     rev: v0.1.0
     hooks:
+      # Pour le linter (ruff)
       - id: ruff
-        args: [--fix]
+        # Placez --fix AVANT le séparateur --
+        args: ["--fix", "--"]
+
+      # Pour le formateur (ruff-format)
       - id: ruff-format
-
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.7.0
-    hooks:
-      - id: mypy
-        args: [--ignore-missing-imports]
-
-  - repo: https://github.com/pycqa/bandit
-    rev: 1.7.6
-    hooks:
-      - id: bandit
-        args: [-c, pyproject.toml]
-        additional_dependencies: ["bandit[toml]"]
+        # Le formateur applique des corrections par défaut,
+        # mais on garde la structure correcte des arguments.
+        # Vous pouvez laisser args vide si vous ne passez pas d'options spécifiques
+        # à ruff-format.
+        # Si vous vouliez passer --check ou d'autres, ils iraient avant --
+        args: ["--"]

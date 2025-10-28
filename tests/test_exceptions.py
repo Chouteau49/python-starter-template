@@ -2,6 +2,11 @@
 Tests pour les exceptions personnalisées.
 """
 
+import os
+import sys
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../src")))
+
 from app.core.exceptions import (
     AppException,
     DatabaseException,

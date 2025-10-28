@@ -2,6 +2,7 @@
 Tests pour la configuration de l'application.
 """
 
+
 from app.core.settings import Settings
 
 

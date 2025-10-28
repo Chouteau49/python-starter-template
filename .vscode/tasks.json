@@ -1,0 +1,17 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Découverte et exécution des tests Pytest",
+			"type": "shell",
+			"command": "pytest",
+			"args": [
+				"tests/"
+			],
+			"problemMatcher": [
+				"$python"
+			],
+			"group": "test"
+		}
+	]
+}

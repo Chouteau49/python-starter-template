@@ -2,15 +2,15 @@
 Système de logs moderne avec couleurs et rotation.
 """
 
+
 import datetime
 import logging
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from app.core.settings import Settings
 from rich.logging import RichHandler
-
-from app.core.settings import settings
 
 
 class Logger:
@@ -18,9 +18,10 @@ class Logger:
     Configuration centralisée des logs.
     """
 
-    def __init__(self):
+    def __init__(self, settings: Settings):
         self.logger = logging.getLogger()
         self._configured = False
+        self._settings = settings
 
     def configure(self, level: str | None = None, file_path: str | None = None) -> None:
         """
@@ -29,15 +30,15 @@ class Logger:
         if self._configured:
             return
 
-        level = level or settings.log_level
-        file_path = file_path or settings.log_file_path
+        level = level or self._settings.log_level
+        file_path = file_path or self._settings.log_file_path
 
         # Niveau de log
         numeric_level = getattr(logging, level.upper(), logging.INFO)
         self.logger.setLevel(numeric_level)
 
         # Formatter avec timezone
-        timezone = ZoneInfo(settings.log_timezone)
+        timezone = ZoneInfo(self._settings.log_timezone)
         formatter = logging.Formatter(
             "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
             datefmt="%Y-%m-%d %H:%M:%S",
@@ -66,14 +67,24 @@ class Logger:
         self.logger.info("Système de logs configuré")
 
 
-# Instance globale
-logger = Logger()
-
-
 def get_logger(name: str) -> logging.Logger:
     """
     Retourne un logger configuré pour un module.
     """
-    if not logger._configured:
-        logger.configure()
+    # Pour l'injection, on attend une instance Settings
+    raise RuntimeError(
+        "Utilisez get_logger_injected(name, settings) pour l'injection de dépendances."
+    )
+
+
+def get_logger_injected(name: str, settings: Settings) -> logging.Logger:
+    """
+    Retourne un logger configuré pour un module, avec injection de Settings.
+    """
+    # Singleton par settings
+    if not hasattr(get_logger_injected, "_logger_instance"):
+        get_logger_injected._logger_instance = Logger(settings)  # type: ignore
+    logger_instance = get_logger_injected._logger_instance  # type: ignore
+    if not logger_instance._configured:
+        logger_instance.configure()
     return logging.getLogger(name)

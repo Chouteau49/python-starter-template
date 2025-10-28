@@ -2,12 +2,17 @@
 Test du chemin d'erreur pour `Application.run`.
 """
 
+import os
+import sys
 from unittest.mock import MagicMock, patch
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../src")))
+
 
 from app.application import Application
 
 
-@patch("app.application.get_logger")
+@patch("app.application.get_logger_injected")
 @patch("app.application.InMemoryUserRepository")
 @patch("app.application.UserService")
 def test_run_handles_exceptions(mock_user_service, mock_repo, mock_get_logger):
