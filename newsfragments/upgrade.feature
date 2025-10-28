@@ -1,1 +1,0 @@
-Upgrade complet du template vers Python moderne 3.13+ avec architecture SOLID, TDD, CI/CD, et docs MkDocs.

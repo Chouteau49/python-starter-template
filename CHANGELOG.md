@@ -2,6 +2,12 @@
 
 Toutes les modifications notables de ce projet seront documentées dans ce fichier.
 
+## [0.1.4.dev18+gbc46f03de.d20251028] - 2025-10-28
+
+### Nouvelles fonctionnalités
+
+- Upgrade complet du template vers Python moderne 3.13+ avec architecture SOLID, TDD, CI/CD, et docs MkDocs.
+
 ## [Unreleased]
 
 ## [0.1.0] - 2025-03-10

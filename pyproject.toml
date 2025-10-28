@@ -98,6 +98,7 @@ exclude_lines = [
 
 [tool.towncrier]
 package = "app"
+package_dir = "src"
 filename = "CHANGELOG.md"
 directory = "newsfragments"
 title_format = "## [{version}] - {project_date}"
