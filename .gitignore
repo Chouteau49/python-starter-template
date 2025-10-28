@@ -18,6 +18,9 @@ htmlcov/
 # Environnements virtuels
 venv/
 env/
+
+# Fichiers générés par setuptools-scm
+src/app/_version.py
 ENV/
 .venv/
 .env
