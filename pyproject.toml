@@ -124,3 +124,6 @@ showcontent = true
 directory = "misc"
 name = "Divers"
 showcontent = true
+
+[tool.poetry.dependencies]
+pydantic-settings = ">=2.0.0"
