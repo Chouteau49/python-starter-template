@@ -44,6 +44,7 @@ jobs:
   test:
     name: Tests Unitaires et Couverture
     runs-on: ubuntu-latest
+    needs: lint
     steps:
       - name: Checkout du code
         uses: actions/checkout@v3
