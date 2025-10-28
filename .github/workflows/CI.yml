@@ -66,9 +66,9 @@ jobs:
           . venv/bin/activate
           pip list
 
-        - name: Vérifier la présence de _version.py
-          run: |
-            find venv -name _version.py || true
+      - name: Vérifier la présence de _version.py
+        run: |
+          find venv -name _version.py || true
 
       - name: Exécuter les tests avec couverture
         run: |
