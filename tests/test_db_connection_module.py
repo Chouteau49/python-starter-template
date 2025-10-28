@@ -5,7 +5,6 @@ Tests unitaires pour `app.db.connection`.
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from app.db.connection import DatabaseConnection
 
 
