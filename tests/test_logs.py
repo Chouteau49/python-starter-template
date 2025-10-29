@@ -8,10 +8,10 @@ from app.core.logs import Logger
 """Tests pour le système de logging."""
 
 
-@patch("app.services.logs.Path")
-@patch("app.services.logs.GzipRotatingFileHandler")
-@patch("app.services.logs.RichHandler")
-@patch("app.services.logs.logging")
+@patch("app.core.logs.Path")
+@patch("app.core.logs.GzipRotatingFileHandler")
+@patch("app.core.logs.RichHandler")
+@patch("app.core.logs.logging")
 def test_configure_first_time(
     mock_logging, mock_rich_handler, mock_file_handler, mock_path
 ):
@@ -53,8 +53,8 @@ def test_configure_first_time(
     # mock_logger.info.assert_any_call("Système de logs configuré")
 
 
-@patch("app.services.logs.logging")
-@patch("app.services.logs.RichHandler")
+@patch("app.core.logs.logging")
+@patch("app.core.logs.RichHandler")
 def test_configure_without_file_path(mock_rich_handler, mock_logging):
     """Test de configuration sans chemin de fichier."""
     mock_settings = MagicMock()
@@ -78,11 +78,11 @@ def test_configure_without_file_path(mock_rich_handler, mock_logging):
     # mock_logger.info.assert_called_with("Système de logs configuré")
 
 
-@patch("app.services.logs.Path")
-@patch("app.services.logs.GzipRotatingFileHandler")
-@patch("app.services.logs.RichHandler")
-@patch("app.services.logs.ZoneInfo")
-@patch("app.services.logs.logging")
+@patch("app.core.logs.Path")
+@patch("app.core.logs.GzipRotatingFileHandler")
+@patch("app.core.logs.RichHandler")
+@patch("app.core.logs.ZoneInfo")
+@patch("app.core.logs.logging")
 def test_configure_custom_parameters(
     mock_logging, mock_zoneinfo, mock_rich_handler, mock_file_handler, mock_path
 ):
@@ -136,10 +136,10 @@ def test_get_logger_returns_logger_when_configured():
     pass
 
 
-@patch("app.services.logs.logging")
-@patch("app.services.logs.RichHandler")
-@patch("app.services.logs.GzipRotatingFileHandler")
-@patch("app.services.logs.Path")
+@patch("app.core.logs.logging")
+@patch("app.core.logs.RichHandler")
+@patch("app.core.logs.GzipRotatingFileHandler")
+@patch("app.core.logs.Path")
 def test_different_log_levels(
     mock_path, mock_file_handler, mock_rich_handler, mock_logging
 ):
@@ -180,10 +180,10 @@ def test_different_log_levels(
         # mock_logger.info.assert_any_call("Système de logs configuré")
 
 
-@patch("app.services.logs.logging")
-@patch("app.services.logs.RichHandler")
-@patch("app.services.logs.GzipRotatingFileHandler")
-@patch("app.services.logs.Path")
+@patch("app.core.logs.logging")
+@patch("app.core.logs.RichHandler")
+@patch("app.core.logs.GzipRotatingFileHandler")
+@patch("app.core.logs.Path")
 def test_directory_creation(
     mock_path, mock_file_handler, mock_rich_handler, mock_logging
 ):
@@ -213,10 +213,10 @@ def test_directory_creation(
     # mock_logger.info.assert_any_call("Système de logs configuré")
 
 
-@patch("app.services.logs.logging")
-@patch("app.services.logs.RichHandler")
-@patch("app.services.logs.GzipRotatingFileHandler")
-@patch("app.services.logs.Path")
+@patch("app.core.logs.logging")
+@patch("app.core.logs.RichHandler")
+@patch("app.core.logs.GzipRotatingFileHandler")
+@patch("app.core.logs.Path")
 def test_formatter_configuration(
     mock_path, mock_file_handler, mock_rich_handler, mock_logging
 ):
@@ -250,10 +250,10 @@ def test_formatter_configuration(
     # mock_logger.info.assert_any_call("Système de logs configuré")
 
 
-@patch("app.services.logs.logging")
-@patch("app.services.logs.RichHandler")
-@patch("app.services.logs.GzipRotatingFileHandler")
-@patch("app.services.logs.Path")
+@patch("app.core.logs.logging")
+@patch("app.core.logs.RichHandler")
+@patch("app.core.logs.GzipRotatingFileHandler")
+@patch("app.core.logs.Path")
 def test_logger_initialization(
     mock_path, mock_file_handler, mock_rich_handler, mock_logging
 ):
@@ -268,10 +268,10 @@ def test_logger_initialization(
     assert logger_instance.logger == mock_logger
 
 
-@patch("app.services.logs.logging")
-@patch("app.services.logs.RichHandler")
-@patch("app.services.logs.GzipRotatingFileHandler")
-@patch("app.services.logs.Path")
+@patch("app.core.logs.logging")
+@patch("app.core.logs.RichHandler")
+@patch("app.core.logs.GzipRotatingFileHandler")
+@patch("app.core.logs.Path")
 def test_info_log_after_configuration(
     mock_path, mock_file_handler, mock_rich_handler, mock_logging
 ):
@@ -300,11 +300,11 @@ def test_info_log_after_configuration(
     # mock_logger.info.assert_any_call("Système de logs configuré")
 
 
-@patch("app.services.logs.logging")
-@patch("app.services.logs.ZoneInfo")
-@patch("app.services.logs.RichHandler")
-@patch("app.services.logs.GzipRotatingFileHandler")
-@patch("app.services.logs.Path")
+@patch("app.core.logs.logging")
+@patch("app.core.logs.ZoneInfo")
+@patch("app.core.logs.RichHandler")
+@patch("app.core.logs.GzipRotatingFileHandler")
+@patch("app.core.logs.Path")
 def test_timezone_configuration(
     mock_path, mock_file_handler, mock_rich_handler, mock_zoneinfo, mock_logging
 ):
