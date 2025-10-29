@@ -142,4 +142,16 @@ targets = ["src"] # Se concentrer uniquement sur le code source de production
 skips = ["B101"] # B101 (assert) est souvent désactivé pour les tests (même si exclude_dirs est là, c'est une sécurité)
 
 [tool.poetry.dependencies]
+python = ">=3.13"
 pydantic-settings = ">=2.0.0"
+
+[tool.poetry]
+name = "python-starter-template"
+version = "0.1.0"
+description = "Un template structuré pour projets Python modernes"
+authors = ["Chouteau49 <chouteau49@example.com>"]
+
+[dependency-groups]
+dev = [
+    "ruff (>=0.14.2,<0.15.0)"
+]

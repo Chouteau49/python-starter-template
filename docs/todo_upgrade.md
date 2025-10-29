@@ -19,7 +19,7 @@ Ce document liste les améliorations architecturales, de code et de configuratio
    - Supprimer config/ et config_samples/.
 
 4. **Ajouter hooks pre-commit** ✅
-   - Créer `.pre-commit-config.yaml` pour exécuter Ruff, black, isort, mypy, etc., avant chaque commit.
+   - Créer `.pre-commit-config.yaml` pour exécuter Ruff (lint/format), mypy, etc., avant chaque commit.
 
 ## Phase 2 : Architecture et Code
 

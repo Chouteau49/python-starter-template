@@ -32,20 +32,34 @@ Un template structuré et prêt à l'emploi pour démarrer rapidement vos projet
 git clone https://github.com/Chouteau49/python-starter-template.git
 cd python-starter-template
 
+# Installer Poetry (si non présent)
+curl -sSL https://install.python-poetry.org | python3 -
+
 # Créer un environnement virtuel
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# ou venv\Scripts\activate  # Windows
+python -m venv .venv
+source .venv/bin/activate  # Linux/Mac
+# ou .venv\Scripts\activate  # Windows
 
 # Installer les dépendances
-pip install -e .[dev]
+poetry install
 
 # Configurer les variables d'environnement
 cp .env.example .env
 # Éditer .env avec vos valeurs
 
+# Utilisation des variables d'environnement
+# Local : modifiez le fichier .env ou exportez les variables dans votre shell
+#   export LOG_LEVEL=DEBUG
+#   export LOG_FILE_PATH=logs/app.log
+# Docker : les variables sont injectées via docker-compose.yml
+#   environment:
+#     - LOG_LEVEL=INFO
+#     - LOG_FILE_PATH=/app/logs/app.log
+# Cloud : configurez les variables dans l’interface du provider (Azure, GCP, etc.)
+#   (voir documentation du cloud pour la syntaxe)
+
 # Installer les hooks pre-commit
-pre-commit install
+poetry run pre-commit install
 ```
 
 ### Utilisation

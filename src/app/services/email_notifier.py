@@ -1,32 +1,43 @@
 import smtplib
+from abc import ABC, abstractmethod
 from configparser import ConfigParser
 from email.mime.text import MIMEText
 
 
-class EmailNotifier:
+class Notifier(ABC):
     """
-    Classe pour envoyer des notifications par email.
+    Interface pour les notificateurs.
     """
 
-    def __init__(self, config_path: str):
-        """
-        Initialise le notifier avec le chemin du fichier de configuration.
-        """
-        self.config = ConfigParser()
-        self.config.read(config_path)
+    @abstractmethod
+    def send_notification(self, subject: str, body: str) -> None:
+        pass
 
-    def send_email(self, subject: str, body: str):
-        """
-        Envoie un email avec le sujet et le corps spécifiés.
-        """
-        smtp_server = self.config.get("SMTP", "smtp_server")
-        from_email = self.config.get("SMTP", "from_email")
-        to_email = self.config.get("SMTP", "to_email")
 
+class EmailNotifier(Notifier):
+    """
+    Notificateur par email.
+    """
+
+    def __init__(self, config_path: str) -> None:
+        self._config: ConfigParser = ConfigParser()
+        self._config.read(config_path)
+
+    def _build_message(
+        self, subject: str, body: str, from_email: str, to_email: str
+    ) -> MIMEText:
         msg = MIMEText(body)
         msg["Subject"] = subject
         msg["From"] = from_email
         msg["To"] = to_email
+        return msg
+
+    def send_notification(self, subject: str, body: str) -> None:
+        smtp_server: str = self._config.get("SMTP", "smtp_server")
+        from_email: str = self._config.get("SMTP", "from_email")
+        to_email: str = self._config.get("SMTP", "to_email")
+
+        msg: MIMEText = self._build_message(subject, body, from_email, to_email)
 
         with smtplib.SMTP(smtp_server) as server:
             server.sendmail(from_email, [to_email], msg.as_string())

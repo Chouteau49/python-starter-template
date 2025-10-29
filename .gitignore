@@ -35,13 +35,11 @@ tmp/
 temp/
 
 # Configuration sensible (si présente)
-config/
 secrets.json
 *.key
 *.pem
 
 # Outils de développement
-.vscode/settings.json
 .idea/
 *.swp
 *.swo

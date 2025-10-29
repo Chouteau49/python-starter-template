@@ -49,6 +49,12 @@ jobs:
         # Utilise la configuration de pyproject.toml (-c) et analyse le code source (src)
         run: bandit -r src -c pyproject.toml
 
+      - name: Scan de vulnérabilité pip-audit
+        run: pip-audit
+
+      - name: Scan de vulnérabilité safety
+        run: safety check --full-report
+
 
   test:
     name: Exécution des Tests et Couverture

@@ -2,15 +2,36 @@
 Système de logs moderne avec couleurs et rotation.
 """
 
-
 import datetime
+import gzip
 import logging
+import shutil
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from app.core.settings import Settings
 from rich.logging import RichHandler
+
+
+class GzipRotatingFileHandler(RotatingFileHandler):
+    def emit(self, record):
+        super().emit(record)
+        self._compress_old_logs()
+
+    def _compress_old_logs(self):
+        for i in range(self.backupCount, 0, -1):
+            log_file = f"{self.baseFilename}.{i}"
+            gz_file = f"{log_file}.gz"
+            if Path(log_file).exists() and not Path(gz_file).exists():
+                with open(log_file, "rb") as f_in, gzip.open(gz_file, "wb") as f_out:
+                    shutil.copyfileobj(f_in, f_out)
+                Path(log_file).unlink()
+
+
+"""
+Système de logs moderne avec couleurs et rotation.
+"""
 
 
 class Logger:
@@ -50,19 +71,25 @@ class Logger:
         console_handler.setFormatter(formatter)
         self.logger.addHandler(console_handler)
 
-        # Handler fichier avec rotation
+        # Handler fichier avec rotation + compression gzip des archives
         if file_path:
             log_dir = Path(file_path).parent
-            # Assurer la création récursive des dossiers si nécessaire
             log_dir.mkdir(parents=True, exist_ok=True)
-            file_handler = RotatingFileHandler(
+            file_handler = GzipRotatingFileHandler(
                 file_path,
                 maxBytes=10 * 1024 * 1024,
-                backupCount=5,  # 10MB, 5 backups
-                encoding="utf-8",  # Encodage UTF-8 pour supporter les caractères accentués
+                backupCount=5,
+                encoding="utf-8",
             )
             file_handler.setFormatter(formatter)
             self.logger.addHandler(file_handler)
+
+    def _wrap_emit(self, emit_func, handler, compress_func):
+        def wrapper(record):
+            emit_func(record)
+            compress_func(handler)
+
+        return wrapper
 
         self._configured = True
         self.logger.info("Système de logs configuré")

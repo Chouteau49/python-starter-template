@@ -2,11 +2,16 @@
 Configuration globale de l'application.
 """
 
-from pydantic import ConfigDict
+
+import os
+
+from dotenv import load_dotenv
 from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
+    # Chargement automatique du .env à l'initialisation
+    load_dotenv(dotenv_path=os.getenv("DOTENV_PATH", ".env"), override=True)
     """
     Paramètres de configuration via variables d'environnement.
     """
@@ -18,7 +23,3 @@ class Settings(BaseSettings):
     smtp_server: str | None = None
     smtp_from_email: str | None = None
     smtp_to_email: str | None = None
-
-    model_config = ConfigDict(
-        env_prefix="",
-    )
