@@ -2,7 +2,7 @@
 Modèles de données de l'application.
 """
 
-from pydantic import BaseModel, ConfigDict, EmailStr
+from pydantic import BaseModel, ConfigDict, EmailStr, model_validator
 
 
 class User(BaseModel):
@@ -19,3 +19,23 @@ class User(BaseModel):
         from_attributes=True,
         extra="forbid",
     )
+
+    def __repr__(self):
+        return f"User(id={self.id}, name='{self.name}', email='{self.email}')"
+
+
+class CreateUserRequest(BaseModel):
+    """
+    Modèle pour la création d'un utilisateur.
+    """
+
+    name: str
+    email: EmailStr
+
+    @model_validator(mode="after")
+    def validate_fields(self):
+        if not self.name.strip():
+            raise ValueError("Le nom ne peut pas être vide")
+        if not self.email.strip():
+            raise ValueError("L'email ne peut pas être vide")
+        return self

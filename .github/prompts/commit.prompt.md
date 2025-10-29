@@ -24,6 +24,12 @@ Avant de générer le message de commit, assure-toi que les vérifications suiva
 
 Si l'une de ces vérifications échoue, informe l'utilisateur et suggère de corriger les problèmes avant de committer.
 
+## Bonnes pratiques après commit :
+
+- **Pas de push immédiat** : Après avoir committé, vérifie une dernière fois les changements avec `git log` et `git diff origin/main`.
+- **Revue de code** : Si possible, soumets une Pull Request pour revue avant de pousser sur la branche principale.
+- **Push structuré** : Utilise `git push origin <branche>` pour pousser uniquement les commits nécessaires.
+
 ## Exemples :
 
 - `feat(auth): ajouter authentification par email`

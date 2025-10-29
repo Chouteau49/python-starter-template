@@ -24,6 +24,10 @@ class UserRepository(ABC):
     def find_all(self) -> list[User]:
         pass
 
+    @abstractmethod
+    def delete(self, user_id: int) -> bool:
+        pass
+
 
 class InMemoryUserRepository(UserRepository):
     """
@@ -46,3 +50,6 @@ class InMemoryUserRepository(UserRepository):
 
     def find_all(self) -> list[User]:
         return list(self.users.values())
+
+    def delete(self, user_id: int) -> bool:
+        return self.users.pop(user_id, None) is not None

@@ -95,6 +95,43 @@ class Logger:
         self.logger.info("Système de logs configuré")
 
 
+class LoggerService:
+    """
+    Service de gestion des logs avec rotation et configuration avancée.
+    """
+
+    def __init__(self, log_file: str = "logs/app.log", log_level: str = "INFO"):
+        self.logger = logging.getLogger("LoggerService")
+        self.logger.setLevel(log_level)
+
+        # Création du dossier des logs si nécessaire
+        log_path = Path(log_file).parent
+        log_path.mkdir(parents=True, exist_ok=True)
+
+        # Gestionnaire de rotation des fichiers de log
+        handler = RotatingFileHandler(log_file, maxBytes=10**6, backupCount=5)
+        formatter = logging.Formatter(
+            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+        )
+        handler.setFormatter(formatter)
+        self.logger.addHandler(handler)
+
+    def debug(self, message: str):
+        self.logger.debug(message)
+
+    def info(self, message: str):
+        self.logger.info(message)
+
+    def warning(self, message: str):
+        self.logger.warning(message)
+
+    def error(self, message: str):
+        self.logger.error(message)
+
+    def critical(self, message: str):
+        self.logger.critical(message)
+
+
 def get_logger(name: str) -> logging.Logger:
     """
     Retourne un logger configuré pour un module.

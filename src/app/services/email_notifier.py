@@ -41,3 +41,12 @@ class EmailNotifier(Notifier):
 
         with smtplib.SMTP(smtp_server) as server:
             server.sendmail(from_email, [to_email], msg.as_string())
+
+    def send_email(self, to: str, subject: str, body: str) -> bool:
+        """
+        Simule l'envoi d'un email. Retourne False si l'email est invalide.
+        """
+        if "@" not in to:  # Vérification basique de l'email
+            return False
+        # Logique simulée pour l'envoi d'email
+        return True
