@@ -1,6 +1,6 @@
 import os
 
-from app.services.logs import LoggerService
+from app.core.logs import LoggerService
 
 
 def test_logger_service_creation():

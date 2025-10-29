@@ -10,8 +10,9 @@ from logging.handlers import RotatingFileHandler
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from app.core.settings import Settings
 from rich.logging import RichHandler
+
+from app.core.settings import Settings
 
 
 class GzipRotatingFileHandler(RotatingFileHandler):

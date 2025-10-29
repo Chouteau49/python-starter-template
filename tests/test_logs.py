@@ -3,7 +3,7 @@ Tests pour le système de logging.
 """
 from unittest.mock import MagicMock, patch
 
-from app.services.logs import Logger
+from app.core.logs import Logger
 
 """Tests pour le système de logging."""
 

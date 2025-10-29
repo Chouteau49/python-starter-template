@@ -2,9 +2,9 @@
 Application principale du template Python moderne.
 """
 
+from app.core.logs import get_logger_injected
 from app.core.settings import Settings
 from app.repo.user_repository import InMemoryUserRepository
-from app.services.logs import get_logger_injected
 from app.services.user_service import UserService
 
 from ._version import version as __version__
